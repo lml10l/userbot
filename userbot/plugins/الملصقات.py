@@ -274,9 +274,17 @@ async def add_to_pack(
     return pack, packname
 
 
-@jmthon.on(admin_cmd(pattern="ملصق"))
+@jmthon.ar_cmd(
+    pattern="kang(?:\s|$)([\s\S]*)",
+    command=("kang", plugin_category),
+    info={
+        "header": "To kang a sticker.",
+        "description": "Kang's the sticker/image/video/gif/webm file to the specified pack and uses the emoji('s) you picked",
+        "usage": "{tr}kang [emoji('s)] [number]",
+    },
+)
 async def kang(args):  # sourcery no-metrics
-    "Jepthon Userbot."
+    "To kang a sticker."
     photo = None
     emojibypass = False
     is_anim = False
@@ -289,7 +297,7 @@ async def kang(args):  # sourcery no-metrics
             user.first_name.encode("utf-8").decode("ascii")
             username = user.first_name
         except UnicodeDecodeError:
-            username = f"jepthon_{user.id}"
+            username = f"cat_{user.id}"
     else:
         username = user.username
     userid = user.id
@@ -321,40 +329,55 @@ async def kang(args):  # sourcery no-metrics
             is_anim = True
             photo = 1
         elif message.media.document.mime_type in ["video/mp4", "video/webm"]:
+            emojibypass = False
+            is_video = True
+            photo = 1
             if message.media.document.mime_type == "video/webm":
-                catevent = await edit_or_reply(args, f"`{random.choice(KANGING_STR)}`")
-                sticker = await args.client.download_media(
-                    message.media.document, "animate.webm"
-                )
+                attributes = message.media.document.attributes
+                for attribute in attributes:
+                    if isinstance(attribute, DocumentAttributeSticker):
+                        if message.media.document.size / 1024 > 255:
+                            catevent = await edit_or_reply(
+                                args, "__⌛ File size big,,, Downloading..__"
+                            )
+                            sticker = await animator(message, args, catevent)
+                            await edit_or_reply(
+                                catevent, f"`{random.choice(KANGING_STR)}`"
+                            )
+                        else:
+                            catevent = await edit_or_reply(
+                                args, f"`{random.choice(KANGING_STR)}`"
+                            )
+                            sticker = await args.client.download_media(
+                                message.media.document, "animate.webm"
+                            )
+                        emoji = attribute.alt
+                        emojibypass = True
             else:
-                catevent = await edit_or_reply(args, "__⌛ جار التحويل ..__")
+                catevent = await edit_or_reply(args, "__⌛ Downloading..__")
                 sticker = await animator(message, args, catevent)
                 await edit_or_reply(catevent, f"`{random.choice(KANGING_STR)}`")
-            is_video = True
-            emoji = "🤍"
-            emojibypass = True
-            photo = 1
         else:
-            await edit_delete(args, "`- الملف غير مدعوم`")
+            await edit_delete(args, "`Unsupported File!`")
             return
     else:
-        await edit_delete(args, "`-  لا استطيع اخذ هذا الملصق...`")
+        await edit_delete(args, "`I can't kang that...`")
         return
     if photo:
         splat = ("".join(args.text.split(maxsplit=1)[1:])).split()
-        emoji = emoji if emojibypass else "🤍"
+        emoji = emoji if emojibypass else "😂"
         pack = 1
         if len(splat) == 2:
             if char_is_emoji(splat[0][0]):
                 if char_is_emoji(splat[1][0]):
-                    return await catevent.edit("تأكد من الامر بشكل صحيح`")
+                    return await catevent.edit("check `.info stickers`")
                 pack = splat[1]  # User sent both
                 emoji = splat[0]
             elif char_is_emoji(splat[1][0]):
                 pack = splat[0]  # User sent both
                 emoji = splat[1]
             else:
-                return await catevent.edit("تأكد من الامر بشكل صحيح")
+                return await catevent.edit("check `.info stickers`")
         elif len(splat) == 1:
             if char_is_emoji(splat[0][0]):
                 emoji = splat[0]
@@ -399,13 +422,13 @@ async def kang(args):  # sourcery no-metrics
                 return
             await edit_delete(
                 catevent,
-                f"-  تم بنجاح اخذ الملصق!\
-                    \nالحزمة الخاصة بك هي  [اضغط هنا](t.me/addstickers/{packname}) و الايموجي الخاص هو {emoji}",
+                f"`Sticker kanged successfully!\
+                    \nYour Pack is` [here](t.me/addstickers/{packname}) `and emoji for the kanged sticker is {emoji}`",
                 parse_mode="md",
                 time=10,
             )
         else:
-            await catevent.edit("`- يتم احضار حزمة جديدة`")
+            await catevent.edit("`Brewing a new Pack...`")
             async with args.client.conversation("@Stickers") as conv:
                 otherpack, packname, emoji = await newpacksticker(
                     catevent,
@@ -420,23 +443,23 @@ async def kang(args):  # sourcery no-metrics
                     is_anim,
                     stfile,
                 )
-            if os.path.exists(sticker):
+            if is_video and os.path.exists(sticker):
                 os.remove(sticker)
             if otherpack is None:
                 return
             if otherpack:
                 await edit_delete(
                     catevent,
-                    f"-  تم بنجاح اخذ الملصق لحزمة ثانيـة\
-                    \nالحزمة الخاصة بك هي  [اضغط هنا](t.me/addstickers/{packname}) و الايموجي الخاص هو {emoji}",
+                    f"`Sticker kanged to a Different Pack !\
+                    \nAnd Newly created pack is` [here](t.me/addstickers/{packname}) `and emoji for the kanged sticker is {emoji}`",
                     parse_mode="md",
                     time=10,
                 )
             else:
                 await edit_delete(
                     catevent,
-                    f"-  تم بنجاح اخذ الملصق!!\
-                    \nالحزمة الخاصة بك هي  [اضغط هنا](t.me/addstickers/{packname}) و الايموجي الخاص هو {emoji}",
+                    f"`Sticker kanged successfully!\
+                    \nYour Pack is` [here](t.me/addstickers/{packname}) `and emoji for the kanged sticker is {emoji}`",
                     parse_mode="md",
                     time=10,
                 )
