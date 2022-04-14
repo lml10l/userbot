@@ -33,7 +33,7 @@ def check_data_base_heal_th():
         # to check database we will execute raw query
         SESSION.execute("SELECT 1")
     except Exception as e:
-        output = f"❌ {str(e)}"
+        output = f"❌ {e}"
         is_database_working = False
     else:
         output = "Functioning"
@@ -57,7 +57,7 @@ async def catalive(StartTime):
             "Authorization": f"Bearer {Config.HEROKU_API_KEY}",
             "Accept": "application/vnd.heroku+json; version=3.account-quotas",
         }
-        path = "/accounts/" + user_id + "/actions/get-quota"
+        path = f"/accounts/{user_id}/actions/get-quota"
         r = requests.get(heroku_api + path, headers=headers)
         result = r.json()
         quota = result["account_quota"]
@@ -83,9 +83,9 @@ async def catalive(StartTime):
         dyno = f"{AppHours}h {AppMinutes}m/{hours}h {minutes}m"
     except Exception as e:
         dyno = e
-    return f"Catuserbot Stats\
-                 \n\nDatabase : {check_sgnirts}\
-                  \nSudo : {sudo}\
-                  \nUptime : {uptime}\
-                  \nDyno : {dyno}\
+    return f"🖤༄ Jepthon Stats ༄🖤\
+                 \n\nღ Database : {check_sgnirts}\
+                  \nღ Sudo : {sudo}\
+                  \nღ Uptime : {uptime}\
+                  \nღ Dyno : {dyno}\
                   "
