@@ -275,8 +275,8 @@ async def add_to_pack(
 
 
 @jmthon.ar_cmd(
-    pattern="kang(?:\s|$)([\s\S]*)",
-    command=("kang", plugin_category),
+    pattern="ملصق(?:\s|$)([\s\S]*)",
+    command=("ملصق", plugin_category),
     info={
         "header": "To kang a sticker.",
         "description": "Kang's the sticker/image/video/gif/webm file to the specified pack and uses the emoji('s) you picked",
@@ -297,7 +297,7 @@ async def kang(args):  # sourcery no-metrics
             user.first_name.encode("utf-8").decode("ascii")
             username = user.first_name
         except UnicodeDecodeError:
-            username = f"cat_{user.id}"
+            username = f"Jepthon_{user.id}"
     else:
         username = user.username
     userid = user.id
@@ -361,7 +361,7 @@ async def kang(args):  # sourcery no-metrics
             await edit_delete(args, "`Unsupported File!`")
             return
     else:
-        await edit_delete(args, "`I can't kang that...`")
+        await edit_delete(args, "`لا يمكنني اخذ هذا الملصق...`")
         return
     if photo:
         splat = ("".join(args.text.split(maxsplit=1)[1:])).split()
@@ -422,8 +422,8 @@ async def kang(args):  # sourcery no-metrics
                 return
             await edit_delete(
                 catevent,
-                f"`Sticker kanged successfully!\
-                    \nYour Pack is` [here](t.me/addstickers/{packname}) `and emoji for the kanged sticker is {emoji}`",
+                f"`تم اخذ الملصق بنجاح!\
+                    \nهذه هي الحزمه الخاصه بك` [هنا](t.me/addstickers/{packname}) `والايموجي الخاص بلملصق هو {emoji}`",
                 parse_mode="md",
                 time=10,
             )
