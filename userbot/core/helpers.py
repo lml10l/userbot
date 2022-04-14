@@ -45,4 +45,4 @@ async def get_chat_link(
             extra = f"{entity.title} ( {username} )"
         else:
             extra = f"[{entity.title}](tg://resolve?domain={username})"
-    return 
+    return extra
