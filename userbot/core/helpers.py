@@ -31,7 +31,7 @@ async def get_chat_link(
         extra = f"[{name}](tg://user?id={entity.id})"
     else:
         if hasattr(entity, "username") and entity.username is not None:
-            username = "@" + entity.username
+            username = f"@{entity.username}"
         else:
             username = entity.id
         if reply is not None:
@@ -45,4 +45,4 @@ async def get_chat_link(
             extra = f"{entity.title} ( {username} )"
         else:
             extra = f"[{entity.title}](tg://resolve?domain={username})"
-    return extra
+    return 
