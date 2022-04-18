@@ -1,4 +1,4 @@
-# Copyright (C) 2021 JepThon TEAM
+# Copyright (C) 2022 JepThon TEAM
 
 import asyncio
 import math
