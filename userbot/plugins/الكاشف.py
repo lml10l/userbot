@@ -29,12 +29,12 @@ async def _(event):
     else:
         uid = reply_message.sender_id
     chat = "@SangMataInfo_bot"
-    jmthonevent = await edit_or_reply(event, "**⌔∮جـارِ الكشـف ...**")
+    event = await edit_or_reply(event, "**⌔∮جـارِ الكشـف ...**")
     async with event.client.conversation(chat) as conv:
         try:
             await conv.send_message(f"/search_id {uid}")
         except YouBlockedUserError:
-            await edit_delete(jmthonevent, "`unblock @Sangmatainfo_bot and then try`")
+            await edit_delete(event, "`unblock @Sangmatainfo_bot and then try`")
         responses = []
         while True:
             try:
@@ -44,9 +44,9 @@ async def _(event):
             responses.append(response.text)
         await event.client.send_read_acknowledge(conv.chat_id)
     if not responses:
-        await edit_delete(jmthonevent, "`bot can't fetch results`")
+        await edit_delete(event, "`bot can't fetch results`")
     if "No records found" in responses:
-        await edit_delete(jmthonevent, "**⌔∮المستخدم ليس لديه أي سجل ...**")
+        await edit_delete(event, "**⌔∮المستخدم ليس لديه أي سجل ...**")
     names, usernames = await sanga_seperator(responses)
     cmd = event.pattern_match.group(1)
     if cmd == "الاسماء":
@@ -56,7 +56,7 @@ async def _(event):
                 await event.reply(i, parse_mode=parse_pre)
             else:
                 lone = True
-                await jmthonevent.edit(i, parse_mode=parse_pre)
+                await event.edit(i, parse_mode=parse_pre)
     elif cmd == "المعرفات":
         lone = None
         for i in usernames:
@@ -64,7 +64,7 @@ async def _(event):
                 await event.reply(i, parse_mode=parse_pre)
             else:
                 lone = True
-                await jmthonevent.edit(i, parse_mode=parse_pre)
+                await event.edit(i, parse_mode=parse_pre)
 
 
 CMD_HELP.update(
