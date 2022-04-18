@@ -84,32 +84,32 @@ async def variable(var):  # sourcery no-metrics
             os.remove("configs.json")
     elif exe == "اضف":
         variable = "".join(var.text.split(maxsplit=2)[2:])
-        jep = await edit_or_reply(var, "`⌯︙يتم سحب المعلومات`")
+        cat = await edit_or_reply(var, "`⌯︙يتم سحب المعلومات`")
         if not variable:
-            return await jep.edit("⌯︙`.ضع فار <كود الفار> <القيمة>`")
+            return await cat.edit("⌯︙`.ضع فار <كود الفار> <القيمة>`")
         value = "".join(variable.split(maxsplit=1)[1:])
         variable = "".join(variable.split(maxsplit=1)[0])
         if not value:
-            return await jep.edit("⌯︙`.ضع فار <كود الفار> <القيمة>`")
+            return await cat.edit("⌯︙`.ضع فار <كود الفار> <القيمة>`")
         await asyncio.sleep(1.5)
         if variable in heroku_var:
-            await jep.edit(f"`⌯︙`{variable}`  تم بنجاح التغيير الى  \n  ⌯︙`{value}`")
+            await cat.edit(f"`⌯︙`{variable}`  تم بنجاح التغيير الى  \n  ⌯︙`{value}`")
         else:
-            await jep.edit(
+            await cat.edit(
                 f"⌯︙`{variable}`  تم بنجاح اضافه القيمة مع \n   ⌯︙`{value}`"
             )
         heroku_var[variable] = value
     elif exe == "حذف":
-        jep = await edit_or_reply(var, "⌯︙يتم سحب المعلومات انتظر")
+        cat = await edit_or_reply(var, "⌯︙يتم سحب المعلومات انتظر")
         try:
             variable = var.pattern_match.group(2).split()[0]
         except IndexError:
-            return await jep.edit("⌯︙يرجـى تحديد الفار التي تريد حذفه")
+            return await cat.edit("⌯︙يرجـى تحديد الفار التي تريد حذفه")
         await asyncio.sleep(1.5)
         if variable not in heroku_var:
-            return await jep.edit(f"`{variable}`**  لايوجد**")
+            return await cat.edit(f"`{variable}`**  لايوجد**")
 
-        await jep.edit(f"`{variable}`  **تم الحذف بنجاح**")
+        await cat.edit(f"`{variable}`  **تم الحذف بنجاح**")
         del heroku_var[variable]
 
 
