@@ -1,5 +1,5 @@
 """
-credits to @mrconfused and @RR7PP1709
+credits to @mrconfused and @lMl10l
 """
 #    Copyright (C) 2020  sandeep.n(π.$)
 #    This program is free software: you can redistribute it and/or modify
@@ -53,8 +53,7 @@ def catgban(chat_id, reason):
 
 
 def catungban(chat_id):
-    rem = SESSION.query(GBan).get(str(chat_id))
-    if rem:
+    if rem := SESSION.query(GBan).get(str(chat_id)):
         SESSION.delete(rem)
         SESSION.commit()
 
