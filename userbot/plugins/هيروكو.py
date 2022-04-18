@@ -25,13 +25,26 @@ HEROKU_API_KEY = Config.HEROKU_API_KEY
 
 
 @jmthon.ar_cmd(
-    pattern="(اضف|معلومات|حذف) فار ([\s\S]*)",
+    pattern="(اضف|المعلومات|حذف) فار ([\s\S]*)",
     command=("فار", plugin_category),
     info={
         "header": "To manage heroku vars.",
+        "flags": {
+            "set": "To set new var in heroku or modify the old var",
+            "get": "To show the already existing var value.",
+            "del": "To delete the existing value",
+        },
+        "usage": [
+            "{tr}set var <var name> <var value>",
+            "{tr}get var <var name>",
+            "{tr}del var <var name>",
+        ],
+        "examples": [
+            "{tr}get var ALIVE_NAME",
+        ],
     },
 )
-async def variable(var):
+async def variable(var):  # sourcery no-metrics
     """
     Manage most of ConfigVars setting, set new var, get current var, or delete var...
     """
@@ -43,8 +56,8 @@ async def variable(var):
     app = Heroku.app(Config.HEROKU_APP_NAME)
     exe = var.pattern_match.group(1)
     heroku_var = app.config()
-    if exe == "معلومات":
-        cat = await edit_or_reply(var, "⌯︙يـتم سـحب المعـلومـات")
+    if exe == "المعلومات":
+        cat = await edit_or_reply(var, "`⌯︙يـتم سـحب المعـلومـات`")
         await asyncio.sleep(1.0)
         try:
             variable = var.pattern_match.group(2).split()[0]
@@ -53,7 +66,7 @@ async def variable(var):
                     "**معلـومات الـفار**:" f"\n\n`{variable}` = `{heroku_var[variable]}`\n"
                 )
             await cat.edit(
-                "**معلـومات الـفار**:" f"\n\nخـطأ:\n-> `{variable}` هـذا الـفار لم يـتم الـعثور عليـه"
+                "**معلـومات الـفار**:" f"\n\nخـطأ:\n-> `{variable}` ه"
             )
         except IndexError:
             configs = prettyjson(heroku_var.to_dict(), indent=2)
@@ -63,7 +76,7 @@ async def variable(var):
                 result = fp.read()
                 await edit_or_reply(
                     cat,
-                    "`[HEROKU]` معلـومات الـفار:\n\n"
+                    "`[HEROKU]` معلومات الفار:\n\n"
                     "================================"
                     f"\n```{result}```\n"
                     "================================",
@@ -71,32 +84,32 @@ async def variable(var):
             os.remove("configs.json")
     elif exe == "اضف":
         variable = "".join(var.text.split(maxsplit=2)[2:])
-        cat = await edit_or_reply(var, "⌯︙يتم سحب المعلومات")
+        jep = await edit_or_reply(var, "`⌯︙يتم سحب المعلومات`")
         if not variable:
-            return await cat.edit("⌯︙`.ضع فار <كود الفار> <القيمة>`")
+            return await jep.edit("⌯︙`.ضع فار <كود الفار> <القيمة>`")
         value = "".join(variable.split(maxsplit=1)[1:])
         variable = "".join(variable.split(maxsplit=1)[0])
         if not value:
-            return await cat.edit("⌯︙`.ضع فار <كود الفار> <القيمة>`")
+            return await jep.edit("⌯︙`.ضع فار <كود الفار> <القيمة>`")
         await asyncio.sleep(1.5)
         if variable in heroku_var:
-            await cat.edit(f"⌯︙`{variable}`  تم بنجاح التغيير الى  \n  ⌯︙`{value}`")
+            await jep.edit(f"`⌯︙`{variable}`  تم بنجاح التغيير الى  \n  ⌯︙`{value}`")
         else:
-            await cat.edit(
+            await jep.edit(
                 f"⌯︙`{variable}`  تم بنجاح اضافه القيمة مع \n   ⌯︙`{value}`"
             )
         heroku_var[variable] = value
     elif exe == "حذف":
-        cat = await edit_or_reply(var, "⌯︙يتم سحب المعلومات انتظر")
+        jep = await edit_or_reply(var, "⌯︙يتم سحب المعلومات انتظر")
         try:
             variable = var.pattern_match.group(2).split()[0]
         except IndexError:
-            return await cat.edit("⌯︙يرجـى تحديد الفار التي تريد حذفه")
+            return await jep.edit("⌯︙يرجـى تحديد الفار التي تريد حذفه")
         await asyncio.sleep(1.5)
         if variable not in heroku_var:
-            return await cat.edit(f"⌯︙`{variable}`  لا يوجد")
+            return await jep.edit(f"`{variable}`**  لايوجد**")
 
-        await cat.edit(f"⌯︙`{variable}`  تم الحذف بنجاح")
+        await jep.edit(f"`{variable}`  **تم الحذف بنجاح**")
         del heroku_var[variable]
 
 
@@ -117,7 +130,7 @@ async def dyno_usage(dyno):
             dyno,
             "⌯︙يجـب وضع الـفارات المطـلوبة لاستخدام الأمر \n ⌯︙يجب وضع `HEROKU_API_KEY` و `HEROKU_APP_NAME",
         )
-    dyno = await edit_or_reply(dyno, "⌯︙يـتم الـحساب")
+    dyno = await edit_or_reply(dyno, "`⌯︙يـتم الـحساب`")
     useragent = (
         "Mozilla/5.0 (Linux; Android 10; SM-G975F) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -129,7 +142,7 @@ async def dyno_usage(dyno):
         "Authorization": f"Bearer {Config.HEROKU_API_KEY}",
         "Accept": "application/vnd.heroku+json; version=3.account-quotas",
     }
-    path = "/accounts/" + user_id + "/actions/get-quota"
+    path = f"/accounts/{user_id}/actions/get-quota"
     r = requests.get(heroku_api + path, headers=headers)
     if r.status_code != 200:
         return await dyno.edit(
@@ -165,7 +178,7 @@ async def dyno_usage(dyno):
         f"**|**  [`{AppPercentage}`**%**]"
         "\n\n"
         " ⌯︙الساعات المتبقية لهذا الشهر :\n"
-        f"     •  `{hours}`**سـاعات**  `{minutes}`**دقـائق**  "
+        f"     •  `{الساعات}`**h**  `{الدقائق}`**m**  "
         f"**|**  [`{percentage}`**%**]"
     )
 
@@ -190,7 +203,7 @@ async def _(dyno):
         app = Heroku.app(HEROKU_APP_NAME)
     except BaseException:
         return await dyno.reply(
-            "⌯︙ عذرا لا يمكنك استخدام اوامر الفارات وهيروكو الا بعد اضافة كود هيروكو الى الفارات شرح الاضافة [اضغط هنا](https://t.me/Jepthon2)"
+            " ⌯︙ عذرا لا يمكنك استخدام اوامر الفارات وهيروكو الا بعد اضافة كود هيروكو الى الفارات شرح الاضافة [اضغط هنا](https://t.me/Jepthon2)"
         )
     data = app.get_log()
     await edit_or_reply(
