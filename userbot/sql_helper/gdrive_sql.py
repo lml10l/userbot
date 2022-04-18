@@ -1,5 +1,5 @@
 """
-credits to @mrconfused and @RR7PP1709
+credits to @mrconfused and @lMl10l
 """
 #    Copyright (C) 2020  sandeep.n(π.$)
 #    This program is free software: you can redistribute it and/or modify
@@ -55,7 +55,6 @@ def get_parent_id():
 
 
 def rmparent_id(folder_id):
-    note = SESSION.query(Gdrive).filter(Gdrive.cat == folder_id)
-    if note:
+    if note := SESSION.query(Gdrive).filter(Gdrive.cat == folder_id):
         note.delete()
         SESSION.commit()
