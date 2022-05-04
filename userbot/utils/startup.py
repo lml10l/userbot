@@ -25,7 +25,7 @@ from .tools import create_supergroup
 LOGS = logging.getLogger("jepthon")
 cmdhr = Config.COMMAND_HAND_LER
 
-bot = jepthon
+bot = jmthon
 
 
 async def setup_bot():
