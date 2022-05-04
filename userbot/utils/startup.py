@@ -27,6 +27,7 @@ from .tools import create_supergroup
 LOGS = logging.getLogger("jepthon")
 cmdhr = Config.COMMAND_HAND_LER
 
+bot = jmthon
 
 async def setup_bot():
     """
@@ -100,6 +101,28 @@ async def startupmessage():
         LOGS.error(e)
         return None
 
+async def mybot():
+    JEPTHON_USER = bot.me.first_name
+    The_jep = bot.uid
+    jp_ment = f"[{JEPTHON_USER}](tg://user?id={The_jep})"
+    f"ـ {jp_ment}"
+    f"⪼ هذا هو بوت خاص بـ {jp_ment} يمكنك التواصل معه هنا"
+    starkbot = await jmthon.tgbot.get_me()
+    perf = "[ جيبثون ]"
+    bot_name = starkbot.first_name
+    botname = f"@{starkbot.username}"
+    if bot_name.endswith("Assistant"):
+        print("تم تشغيل البوت")
+    else:
+        try:
+            await bot.send_message("@BotFather", "/setinline")
+            await asyncio.sleep(1)
+            await bot.send_message("@BotFather", botname)
+            await asyncio.sleep(1)
+            await bot.send_message("@BotFather", perf)
+            await asyncio.sleep(2)
+        except Exception as e:
+            print(e)
 
 async def ipchange():
     """
