@@ -14,7 +14,7 @@ __copyright__ = "JEPTHON TEAM (C) 2020 - 2021  " + __author__
 
 jmthon.version = __version__
 jmthon.tgbot.version = __version__
-LOGS = logging.getLogger("جيبـثون")
+LOGS = logging.getLogger("jepthon")
 bot = jmthon
 
 StartTime = time.time()
