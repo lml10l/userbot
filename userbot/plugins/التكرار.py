@@ -294,3 +294,9 @@ async def spammer(event):
     cat = input_str[1:]
     await event.delete()
     await spam_function(event, reply, cat, sleeptimem, sleeptimet, DelaySpam=True)
+@jmthon.ar_cmd(pattern=f"ايقاف مكرر ?(.*)",)
+async def spammer(event):
+    reply = await event.get_reply_message()
+    await event.delete()
+    delgvar("spamwork")
+    await spam_function(event, reply, sleeptimem, sleeptimet, DelaySpam=False)
