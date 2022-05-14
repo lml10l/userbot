@@ -1,8 +1,3 @@
-""" Google Text to Speech
-Available Commands:
-.tts LanguageCode as reply to a message
-.tts LangaugeCode | text to speak"""
-
 import os
 import subprocess
 from datetime import datetime
@@ -42,10 +37,10 @@ async def _(event):
         lan = input_str or "en"
     else:
         if not input_str:
-            return await edit_or_reply(event, "⌯︙عـذرا هـذا النص خـطأ")
+            return await edit_or_reply(event, "⌯︙الكلام غير مفهوم.")
         text = input_str
         lan = "en"
-    catevent = await edit_or_reply(event, "⌯︙يـتم الـتسجيل أنتـظر")
+    catevent = await edit_or_reply(event, "`⌯︙يـتم الـتسجيل أنتـظر`")
     text = deEmojify(text.strip())
     lan = lan.strip()
     if not os.path.isdir("./temp/"):
@@ -67,8 +62,9 @@ async def _(event):
             "100k",
             "-vbr",
             "on",
-            required_file_name + ".opus",
+            f"{required_file_name}.opus",
         ]
+
         try:
             t_response = subprocess.check_output(
                 command_to_execute, stderr=subprocess.STDOUT
@@ -78,7 +74,7 @@ async def _(event):
             # continue sending required_file_name
         else:
             os.remove(required_file_name)
-            required_file_name = required_file_name + ".opus"
+            required_file_name = f"{required_file_name}.opus"
         end = datetime.now()
         ms = (end - start).seconds
         await event.client.send_file(
@@ -91,7 +87,8 @@ async def _(event):
         os.remove(required_file_name)
         await edit_delete(
             catevent,
-            "** معـالجة الـنص {} الـى صوت \n فـي {} مت الثواني**".format(text[0:20], ms),
+            "`معالجة النص {} الى صوت {} ثانيه !`".format(text[:20], ms),
         )
+
     except Exception as e:
-        await edit_or_reply(catevent, f"**Error:**\n`{str(e)}`")
+        await edit_or_reply(catevent, f"**Error:**\n`{e}`")
