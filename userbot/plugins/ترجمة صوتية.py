@@ -9,23 +9,9 @@ from userbot import jmthon
 from ..core.managers import edit_delete, edit_or_reply
 from . import deEmojify, reply_id
 
-plugin_category = "utils"
 
-
-@jmthon.ar_cmd(
-    pattern="تكلم(?:\s|$)([\s\S]*)",
-    command=("تكلم", plugin_category),
-    info={
-        "header": "Text to speech command.",
-        "usage": [
-            "{tr}تكلم <text>",
-            "{tr}تكلم <reply>",
-            "{tr}تكلم <language code> ; <text>",
-        ],
-    },
-)
+@jmthon.ar_cmd(pattern="تكلم(?:\s|$)([\s\S]*)")
 async def _(event):
-    "text to speech command"
     input_str = event.pattern_match.group(1)
     start = datetime.now()
     reply_to_id = await reply_id(event)
@@ -34,20 +20,19 @@ async def _(event):
     elif event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         text = previous_message.message
-        lan = input_str or "en"
+        lan = input_str or "ar"
     else:
         if not input_str:
-            return await edit_or_reply(event, "⌯︙الكلام غير مفهوم.")
+            return await edit_or_reply(event, "- هذا نص غير صحيح")
         text = input_str
-        lan = "en"
-    catevent = await edit_or_reply(event, "`⌯︙يـتم الـتسجيل أنتـظر`")
+        lan = "ar"
+    jepthonevent = await edit_or_reply(event, "⌔∮ جـار التسجيل انتـظر قليلا")
     text = deEmojify(text.strip())
     lan = lan.strip()
     if not os.path.isdir("./temp/"):
         os.makedirs("./temp/")
     required_file_name = "./temp/" + "voice.ogg"
     try:
-        # https://github.com/SpEcHiDe/UniBorg/commit/17f8682d5d2df7f3921f50271b5b6722c80f4106
         tts = gTTS(text, lang=lan)
         tts.save(required_file_name)
         command_to_execute = [
@@ -62,19 +47,17 @@ async def _(event):
             "100k",
             "-vbr",
             "on",
-            f"{required_file_name}.opus",
+            required_file_name + ".opus",
         ]
-
         try:
             t_response = subprocess.check_output(
                 command_to_execute, stderr=subprocess.STDOUT
             )
         except (subprocess.CalledProcessError, NameError, FileNotFoundError) as exc:
-            await catevent.edit(str(exc))
-            # continue sending required_file_name
+            await jepthonevent.edit(str(exc))
         else:
             os.remove(required_file_name)
-            required_file_name = f"{required_file_name}.opus"
+            required_file_name = required_file_name + ".opus"
         end = datetime.now()
         ms = (end - start).seconds
         await event.client.send_file(
@@ -86,9 +69,8 @@ async def _(event):
         )
         os.remove(required_file_name)
         await edit_delete(
-            catevent,
-            "`معالجة النص {} الى صوت {} ثانيه !`".format(text[:20], ms),
+            jepthonevent,
+            "تحويل النص {} الى مقطع صوتي في {} ثواني ".format(text[0:20], ms),
         )
-
     except Exception as e:
-        await edit_or_reply(catevent, f"**Error:**\n`{e}`")
+        await edit_or_reply(jepthonevent, f"**خطأ:**\n`{e}`")
