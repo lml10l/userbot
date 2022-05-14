@@ -127,20 +127,6 @@ async def variable(var):
                 "**⌔∮ تم بنجاح تغيير فار اسم المستخدم\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
             )
         heroku_var[variable] = vra
-    if exe == "صورة الادمن" or exe == "صوره الادمن":
-        variable = "ADJM_PIC"
-        await asyncio.sleep(1)
-        if variable in heroku_var:
-            await edit_or_reply(
-                var,
-                "**⌔∮ تم بنجاح تغيير فار صورة الادمن\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
-            )
-        else:
-            await edit_or_reply(
-                var,
-                "**⌔∮ تم بنجاح تغيير فار صورة الادمن\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
-            )
-        heroku_var[variable] = vra
     if exe == "كروب التخزين":
         variable = "PM_LOGGER_GROUP_ID"
         await asyncio.sleep(1)
