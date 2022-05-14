@@ -14,8 +14,8 @@ plugin_category = "utils"
 
 
 @jmthom.ar_cmd(
-    pattern="تحويل رسالة$",
-    command=("تحويل رسالة", plugin_category),
+    pattern="نطق$",
+    command=("نطق", plugin_category),
     info={
         "header": "speech to text module.",
         "usage": "{tr}stt",
