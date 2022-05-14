@@ -283,9 +283,9 @@ async def spammer(event):
     await event.delete()
     addgvar("spamwork", True)
     await spam_function(event, reply, jmthon, sleeptimem, sleeptimet, DelaySpam=True)
-@jmthon.ar_cmd(pattern=f"ايقاف مكرر ?(.*)",)
-async def spammer(event):
-    reply = await event.get_reply_message()
-    await event.delete()
-    delgvar("spamwork")
-    await spam_function(event, reply, sleeptimem, sleeptimet, DelaySpam=False)
+@jmthon.ar_cmd(pattern="ايقاف مكرر ?(.*)")
+async def stopspamrz(event):
+    if gvarstatus("spamwork") is not None and gvarstatus("spamwork") == "true":
+        delgvar("spamwork")
+        return await edit_delete(event, "**⌔∮ تم بنجاح ايقاف التكرار **")
+    return await edit_delete(event, "**⌔∮ عذرا لم يتم تفعيل التكرار بالاصل")
