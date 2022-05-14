@@ -11,6 +11,7 @@ from userbot import jmthon
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.tools import media_type
 from ..helpers.utils import _catutils
+from ..sql_helper.globals import addgvar, delgvar, gvarstatus
 from . import BOTLOG, BOTLOG_CHATID
 
 plugin_category = "extra"
