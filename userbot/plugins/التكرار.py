@@ -268,32 +268,20 @@ async def tmeme(event):
             )
 
 
-@jmthon.ar_cmd(
-    pattern="مكرر (.*)",
-    command=("مكرر", plugin_category),
-    info={
-        "header": "⌔︙لإرسال إزعـاج إلى الدردشة مع عدد معيّن من المرات مع نص معين وإعطاء وقت إيقاف متأخر ⚠️",
-        "description": "⌔︙على سبيل المثال، إذا رأيت هذا الإزعـاج المتأخـر { .مرحباً 10 2 } عندها سترسل 10 رسائل نصية {مرحباً} بفاصل ثانيتين بين كل رسالة ⚠️",
-        "usage": [
-            "{tr}مكرر  <الوقت المعين> <عدد المرات> <الكلمه>",
-            "{tr}مكرر <الوقت المعين> <عدد المرات> <الكلمه>",
-        ],
-        "examples": ["{tr}مكرر المتطور 2 10 hi", "{tr}التكرار الوقتي المتطور 2 10 hi"],
-    },
-)
+@jmthon.ar_cmd(pattern="مكرر (.*)")
 async def spammer(event):
-    "**⌯︙لإرسال التكرار مع تخصيص وقت إيقـاف بين كل رسالة ❗️**"
     reply = await event.get_reply_message()
     input_str = "".join(event.text.split(maxsplit=1)[1:]).split(" ", 2)
     try:
         sleeptimet = sleeptimem = float(input_str[0])
     except Exception:
         return await edit_delete(
-            event, "⌯︙يـجب استـخدام كتـابة صحـيحة الرجاء الـتاكد من الامر اولا ⚠️"
+            event, "⌔∮ يجب استخدام كتابة صحيحة الرجاء التاكد من الامر اولا ⚠️"
         )
-    cat = input_str[1:]
+    jmthon = input_str[1:]
     await event.delete()
-    await spam_function(event, reply, cat, sleeptimem, sleeptimet, DelaySpam=True)
+    addgvar("spamwork", True)
+    await spam_function(event, reply, jmthon, sleeptimem, sleeptimet, DelaySpam=True)
 @jmthon.ar_cmd(pattern=f"ايقاف مكرر ?(.*)",)
 async def spammer(event):
     reply = await event.get_reply_message()
