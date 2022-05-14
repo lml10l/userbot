@@ -275,9 +275,9 @@ async def write_page(event):
         os.remove(i)
 
 
-@catub.cat_cmd(
-    pattern="مسودة$",
-    command=("مسودةk", plugin_category),
+@jmthon.ar_cmd(
+    pattern="المسودات$",
+    command=("المسودات", plugin_category),
     info={
         "header": "To show your notebook configs.",
         "description": "Shows current notebook configs like font, color, page...",
