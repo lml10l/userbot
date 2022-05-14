@@ -279,10 +279,10 @@ async def spammer(event):
         return await edit_delete(
             event, "⌔∮ يجب استخدام كتابة صحيحة الرجاء التاكد من الامر اولا ⚠️"
         )
-    jmthon = input_str[1:]
+    jepthon = input_str[1:]
     await event.delete()
     addgvar("spamwork", True)
-    await spam_function(event, reply, cat, sleeptimem, sleeptimet, DelaySpam=True)
+    await spam_function(event, reply, jepthon, sleeptimem, sleeptimet, DelaySpam=True)
 @jmthon.ar_cmd(pattern="ايقاف مكرر ?(.*)")
 async def stopspamrz(event):
     if gvarstatus("spamwork") is not None and gvarstatus("spamwork") == "true":
