@@ -228,7 +228,7 @@ async def write_page(event):
         cap = None
     if cmd == "مسودة":
         text = (
-            (await catub(GetFullUserRequest(catub.uid))).full_user
+            (await jmthon(GetFullUserRequest(jmthon.uid))).full_user
         ).about or "هذا مجرد نص عينة\n              -by Jepthon"
         cap = f"**دفتر المستودات :-**\n\n**الخط:** `{font}`\n**الصفحه:** `{list(Pages.keys())[list(Pages.values()).index(page)]}`\n**اللون:** `{foreground.title()}`\n**اللوك:**  `{log}`"
     reply_to_id = await reply_id(event)
