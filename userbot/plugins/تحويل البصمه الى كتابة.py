@@ -13,9 +13,9 @@ from ..helpers import media_type
 plugin_category = "utils"
 
 
-@jmthon.ar_cmd(
-    pattern="stt$",
-    command=("stt", plugin_category),
+@jmthom.ar_cmd(
+    pattern="تحويل رسالة$",
+    command=("تحويل رسالة", plugin_category),
     info={
         "header": "speech to text module.",
         "usage": "{tr}stt",
@@ -26,10 +26,10 @@ async def _(event):
     if Config.IBM_WATSON_CRED_URL is None or Config.IBM_WATSON_CRED_PASSWORD is None:
         return await edit_delete(
             event,
-            "`You need to set the required ENV variables for this module. \nModule stopping`",
+            "`تحتاج إلى تعيين متغيرات ENV المطلوبة لهذه الوحدة. \nModule stopping`",
         )
     start = datetime.now()
-    lan = "ar"
+    lan = "en"
     if not os.path.isdir(Config.TEMP_DIR):
         os.makedirs(Config.TEMP_DIR)
     reply = await event.get_reply_message()
@@ -37,21 +37,22 @@ async def _(event):
     if not reply or (mediatype and mediatype not in ["Voice", "Audio"]):
         return await edit_delete(
             event,
-            "`Reply to a voice message or Audio, to get the relevant transcript.`",
+            "`قم بالرد على البصمة او ملف صوتي, لتحويله الى نص.`",
         )
-    catevent = await edit_or_reply(event, "`Downloading to my local, for analysis  🙇`")
+    catevent = await edit_or_reply(event, "`تحميل على بلدي المحلي ، للتحليل  🙇`")
     required_file_name = await event.client.download_media(reply, Config.TEMP_DIR)
-    await catevent.edit("`Starting analysis, using IBM WatSon Speech To Text`")
+    await catevent.edit("`بدأ تحويل البصمة الى نص . .`")
     headers = {
         "Content-Type": reply.media.document.mime_type,
     }
     data = open(required_file_name, "rb").read()
     response = requests.post(
-        Config.IBM_WATSON_CRED_URL + "/v1/recognize",
+        f"{Config.IBM_WATSON_CRED_URL}/v1/recognize",
         headers=headers,
         data=data,
         auth=("apikey", Config.IBM_WATSON_CRED_PASSWORD),
     )
+
     r = response.json()
     if "results" not in r:
         return await catevent.edit(r["error"])
@@ -65,12 +66,12 @@ async def _(event):
         transcript_confidence += " " + str(alternatives["confidence"])
     end = datetime.now()
     ms = (end - start).seconds
-    if transcript_response == "":
-        string_to_show = "**Language : **`{}`\n**Time Taken : **`{} seconds`\n**No Results Found**".format(
+    if not transcript_response:
+        string_to_show = "**اللغة : **`{}`\n**الوقت المستغرق : **`{} ثانية`\n**لم يتم العثور على نتائج**".format(
             lan, ms
         )
     else:
-        string_to_show = "**Language : **`{}`\n**Transcript : **`{}`\n**Time Taken : **`{} seconds`\n**Confidence : **`{}`".format(
+        string_to_show = "**اللغة : **`{}`\n**النص : **`{}`\n**الوقت المستغرق : **`{} ثانيه`\n**الثقة : **`{}`".format(
             lan, transcript_response, ms, transcript_confidence
         )
     await catevent.edit(string_to_show)
