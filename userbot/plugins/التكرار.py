@@ -282,7 +282,7 @@ async def spammer(event):
     jmthon = input_str[1:]
     await event.delete()
     addgvar("spamwork", True)
-    await spam_function(event, reply, jmthon, sleeptimem, sleeptimet, DelaySpam=True)
+    await spam_function(event, reply, cat, sleeptimem, sleeptimet, DelaySpam=True)
 @jmthon.ar_cmd(pattern="ايقاف مكرر ?(.*)")
 async def stopspamrz(event):
     if gvarstatus("spamwork") is not None and gvarstatus("spamwork") == "true":
