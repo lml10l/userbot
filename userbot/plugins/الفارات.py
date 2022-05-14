@@ -100,7 +100,7 @@ async def variable(var):
             )
         heroku_var[variable] = vra
     if exe == "زخرفة الارقام" or exe == "زخرفه الارقام":
-        variable = "TI_FN"
+        variable = "JP_FN"
         await asyncio.sleep(1)
         if variable in heroku_var:
             await edit_or_reply(
