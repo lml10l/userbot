@@ -175,7 +175,7 @@ async def variable(event):
     heroku_var = app.config()
     await edit_or_reply(event, "**⌔∮ جارِ حذف الفار انتظر قليلا**")
     if exe == "رمز الاسم":
-        variable = "TIME_JM"
+        variable = "TIME_JEP"
         await asyncio.sleep(1)
         if variable not in heroku_var:
             return await edit_or_reply(
@@ -206,18 +206,6 @@ async def variable(event):
             "**⌔∮ تم بنجاح حذف فار الصورة\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
         )
         del heroku_var[variable]
-    if exe == "صورة الادمن" or exe == "صوره الادمن":
-        variable = "ADJM_PIC"
-        await asyncio.sleep(1)
-        if variable not in heroku_var:
-            return await edit_or_reply(
-                event, "**⌔∮ لم تتم اضافه فار صورة الادمن بالاصل.**"
-            )
-        await edit_or_reply(
-            event,
-            "**⌔∮ تم بنجاح حذف فار صورة الادمن\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
-        )
-        del heroku_var[variable]
     if exe == "اسم" or exe == "الاسم":
         variable = "ALIVE_NAME"
         await asyncio.sleep(1)
@@ -229,7 +217,7 @@ async def variable(event):
         )
         del heroku_var[variable]
     if exe == "زخرفة الارقام" or exe == "زخرفه الارقام":
-        variable = "TI_FN"
+        variable = "JP_FN"
         await asyncio.sleep(1)
         if variable not in heroku_var:
             return await edit_or_reply(
