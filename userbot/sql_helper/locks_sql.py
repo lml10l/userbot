@@ -122,6 +122,8 @@ jpvois49 = "userbot/helpers/styles/Voic/الحس.ogg"
 jpvois50 = "userbot/helpers/styles/Voic/افتهمنا.ogg"
 jpvois51 = "userbot/helpers/styles/Voic/اطلع برا.ogg"
 jpvois52 = "userbot/helpers/styles/Voic/اخت التنيج.ogg"
+jpvois53 = "userbot/helpers/styles/Voic/اوني تشان.ogg"
+jpvois54 = "userbot/helpers/styles/Voic/اوني تشان1.ogg"
 
 def get_locks(chat_id):
     try:
