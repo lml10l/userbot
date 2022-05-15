@@ -484,7 +484,7 @@ async def event(vois):
     if jpvois54:
         await vois.client.send_file(vois.chat_id, jpvois54, reply_to=Ti)
         await vois.delete()        
-@jmthon.on(admin_cmd(outgoing=True, pattern="all?(.*)"))
+@jmthon.on(admin_cmd(outgoing=True, pattern="منشن?(.*)"))
 async def mentionall(event):
   global moment_worker
   if event.is_private:
