@@ -484,6 +484,69 @@ async def event(vois):
     if jpvois54:
         await vois.client.send_file(vois.chat_id, jpvois54, reply_to=Ti)
         await vois.delete()        
+@jmthon.on(admin_cmd(outgoing=True, pattern="all?(.*)"))
+async def mentionall(event):
+  global moment_worker
+  if event.is_private:
+    return await event.respond("**استخدم الامر في مجموعه او قناه**")
+
+  if event.pattern_match.group(1):
+    mode = "text_on_cmd"
+    msg = event.pattern_match.group(1)
+  elif event.reply_to_msg_id:
+    mode = "text_on_reply"
+    msg = event.reply_to_msg_id
+    if msg == None:
+        return await event.respond("لا يمكنني ذكر الأعضاء في المنشور القديم !!")
+  elif event.pattern_match.group(1) and event.reply_to_msg_id:
+    return await event.respond("أعطني شيئاً. مثال: `.all هلو`")
+  else:
+    return await event.respond("قم بالرد علي رساله او اعطني بعض الكلمات لتاك ")
+
+  if mode == "text_on_cmd":
+    moment_worker.append(event.chat_id)
+    usrnum = 0
+    usrtxt = ""
+    async for usr in iqthon.iter_participants(event.chat_id):
+      usrnum += 1
+      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+      if event.chat_id not in moment_worker:
+        await event.respond("تم التوقف!")
+        return
+      if usrnum == 5:
+        await jepthon.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
+        await asyncio.sleep(2)
+        usrnum = 0
+        usrtxt = ""
+
+
+  if mode == "text_on_reply":
+    moment_worker.append(event.chat_id)
+
+    usrnum = 0
+    usrtxt = ""
+    async for usr in iqthon.iter_participants(event.chat_id):
+      usrnum += 1
+      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+      if event.chat_id not in moment_worker:
+        await event.respond("**تم التوقف**")
+        return
+      if usrnum == 5:
+        await jepthon.send_message(event.chat_id, usrtxt, reply_to=msg)
+        await asyncio.sleep(2)
+        usrnum = 0
+        usrtxt = ""
+
+@jmthon.on(admin_cmd(outgoing=True, pattern="ايقاف التاك?(.*)"))
+async def cancel_mentionall(event):
+  if not event.chat_id in moment_worker:
+    return await event.respond('**لا يوجد عمليه تاك الان**')
+  else:
+    try:
+      moment_worker.remove(event.chat_id)
+    except:
+      pass
+    return await event.respond('**تم ايقاف التاك **')
 @jmthon.ar_cmd(
     pattern="اطردني$",
     command=("اطردني", plugin_category),
