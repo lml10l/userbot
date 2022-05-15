@@ -288,7 +288,7 @@ async def variable(event):
     Syria = "Asia/Damascus"
     heroku_var = app.config()
     await edit_or_reply(event, "⌔∮ يتم جلب معلومات هذا الفار")
-    if exe == "وقت العراق" or exe == "وقت عراق":
+    if exe == "العراق" or exe == "عراق":
         variable = "TZ"
         await asyncio.sleep(1.5)
         if variable in heroku_var:
@@ -302,7 +302,7 @@ async def variable(event):
                 "**⌔∮ تم بنجاح تغيير الوقت الى العراق\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
             )
         heroku_var[variable] = iraq
-    if exe == "وقت السعودية" or exe == "وقت السعوديه":
+    if exe == "السعودية" or exe == "السعوديه":
         variable = "TZ"
         await asyncio.sleep(1.5)
         if variable in heroku_var:
@@ -316,7 +316,7 @@ async def variable(event):
                 "**⌔∮ تم بنجاح تغيير الوقت الى السعودية\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
             )
         heroku_var[variable] = iraq
-    if exe == "وقت مصر":
+    if exe == "مصر":
         variable = "TZ"
         await asyncio.sleep(1.5)
         if variable in heroku_var:
@@ -330,7 +330,7 @@ async def variable(event):
                 "**⌔∮ تم بنجاح تغيير الوقت الى مصر\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
             )
         heroku_var[variable] = cairo
-    if exe == "وقت الاردن":
+    if exe == "الاردن":
         variable = "TZ"
         await asyncio.sleep(1.5)
         if variable in heroku_var:
@@ -344,7 +344,7 @@ async def variable(event):
                 "**⌔∮ تم بنجاح تغيير الوقت الى الاردن\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
             )
         heroku_var[variable] = jordan
-    if exe == "وقت اليمن":
+    if exe == "اليمن":
         variable = "TZ"
         await asyncio.sleep(1.5)
         if variable in heroku_var:
@@ -358,7 +358,7 @@ async def variable(event):
                 "**⌔∮ تم بنجاح تغيير الوقت الى اليمن\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
             )
         heroku_var[variable] = yman
-    if exe == "وقت سوريا":
+    if exe == "سوريا":
         variable = "TZ"
         await asyncio.sleep(1.5)
         if variable in heroku_var:
