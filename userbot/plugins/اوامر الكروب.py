@@ -484,7 +484,7 @@ async def event(vois):
     if jpvois54:
         await vois.client.send_file(vois.chat_id, jpvois54, reply_to=Ti)
         await vois.delete()        
-@jmthon.on(admin_cmd(outgoing=True, pattern="ارسل$"))
+@jmthon.on(events.NewMessage(outgoing=True, pattern="ارسل?(.*)"))
 async def remoteaccess(event):
 
     p = event.pattern_match.group(1)
