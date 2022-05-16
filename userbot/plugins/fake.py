@@ -100,15 +100,15 @@ async def _(e):
 
 
 @jmthon.on(admin_cmd(pattern="للكل تاك$"))
-async def listall(jmthon):
-    if jmthon.fwd_from:
+async def listall(jepthon):
+    if jepthon.fwd_from:
         return
     mentions = "- هذه هي قائمة جميع الاعضاء هنا: "
     chat = await bot.get_input_chat()
     async for x in borg.iter_participants(chat, 2000):
         mentions += f" \n[{x.first_name}](tg://user?id={x.id})"
-    await jmthon.reply(mentions)
-    await jmthon.delete()
+    await jepthon.reply(mentions)
+    await jepthon.delete()
 
 R = (
     "┈┈╱▔▔▔▔▔▔▔▔▔▔▔▏\n"
