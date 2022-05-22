@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  worker:
+    build: .
+    environment:
+      ALIVE_NAME: $ALIVE_NAME
+      COMMAND_HAND_LER: $COMMAND_HAND_LER
+      STRING_SESSION: $STRING_SESSION
+      API_ID: $API_ID  # defaults to None
+      API_HASH: $API_HASH  # defaults to None
+      TG_BOT_USERNAME: $TG_BOT_USERNAME  # defaults to None
+      TG_BOT_TOKEN: $TG_BOT_TOKEN  # defaults to None
+      TZ: $TZ
+      UPSTREAM_REPO: $UPSTREAM_REPO
